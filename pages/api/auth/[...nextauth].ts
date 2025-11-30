@@ -132,6 +132,26 @@ export default NextAuth({
         };
       },
     }),
+    {
+      id: 'arcreactor',
+      name: 'ArcReactor',
+      type: 'oauth',
+      version: '2.0',
+      wellKnown: `${process.env.ARCREACTOR_ISSUER}/.well-known/openid-configuration`,
+      authorization: { params: { scope: 'openid profile email offline_access' } },
+      idToken: true,
+      checks: ['pkce', 'state'],
+      clientId: process.env.ARCREACTOR_CLIENT_ID,
+      clientSecret: process.env.ARCREACTOR_CLIENT_SECRET,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: null,
+        };
+      },
+    },
   ],
   session: {
     strategy: 'jwt',
