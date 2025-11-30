@@ -502,9 +502,13 @@ export class App {
       toUpdate['samlAudienceOverride'] = params.samlAudienceOverride;
     }
 
+    if ('deactivated' in params) {
+      toUpdate['deactivated'] = params.deactivated;
+    }
+
     if (Object.keys(toUpdate).length === 0) {
       throw new JacksonError(
-        'Please provide at least one of the following parameters: acsUrl, name, logoUrl, faviconUrl, primaryColor',
+        'Please provide at least one of the following parameters: acsUrl, name, logoUrl, faviconUrl, primaryColor, deactivated',
         400
       );
     }

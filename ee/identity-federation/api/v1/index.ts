@@ -33,6 +33,14 @@ const handlePOST = async (req: NextApiRequest, res: NextApiResponse) => {
 const handleGET = async (req: NextApiRequest, res: NextApiResponse) => {
   const { identityFederationController } = await jackson();
 
+  const { id, tenant, product } = req.query;
+
+  if (tenant && !product && !id) {
+      const apps = await identityFederationController.app.getAll({ pageLimit: 100 });
+      const filtered = apps.data.filter((a) => a.tenant === tenant);
+      return res.json({ data: filtered });
+  }
+
   const app = await identityFederationController.app.get(req.query as AppRequestParams);
 
   res.json({ data: app });
