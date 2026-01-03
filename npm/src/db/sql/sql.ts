@@ -82,10 +82,13 @@ class Sql implements DatabaseDriver {
             if (pgOpts.application_name) {
               baseOpts.applicationName = pgOpts.application_name;
             }
+
+            const connectTimeout = pgOpts.connect_timeout || 30; // Default to 30 seconds if not provided
+
             (baseOpts as any).extra = {
               max: pgOpts.max_conns,
               maxLifetimeSeconds: pgOpts.maxLifetimeSeconds,
-              connectionTimeoutMillis: pgOpts.connect_timeout * 1000,
+              connectionTimeoutMillis: connectTimeout * 1000,
             };
           }
 

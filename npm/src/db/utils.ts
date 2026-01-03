@@ -14,7 +14,12 @@ export const parsePGOptions = (url: string) => {
     } else if (key === 'application_name') {
       queryParams['applicationName'] = value;
     } else {
-      queryParams[key] = parseInt(value, 10);
+      const val = parseInt(value, 10);
+      if (isNaN(val)) {
+        queryParams[key] = value;
+      } else {
+        queryParams[key] = val;
+      }
     }
   });
 
